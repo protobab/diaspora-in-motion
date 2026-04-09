@@ -17,34 +17,39 @@
 
     <style>
         :root { --lim-green: #1C5E37; }
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+        body { background: #f8fafc; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         .bg-lim { background-color: var(--lim-green); }
         .text-lim { color: var(--lim-green); }
+        #main-content { display: none; } /* Hidden by default until login */
     </style>
 </head>
 <body>
 
-    <nav class="bg-white border-b px-6 py-4 flex justify-between items-center">
+    <nav class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-bold">D</div>
+            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-bold shadow-lg">D</div>
             <h1 class="text-xl font-black text-slate-800 uppercase">Diaspora <span class="text-lim">In Motion</span></h1>
         </div>
         <div id="user-button"></div>
     </nav>
 
-    <div id="auth-container" class="max-w-md mx-auto mt-10 hidden">
+    <div id="auth-container" class="max-w-md mx-auto mt-20 px-4">
         <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center">
-            <h2 class="text-xl font-bold mb-4">Welcome to the Town Square</h2>
-            <p class="text-sm text-slate-500 mb-6">Connect with the global diaspora. Sign in to join the conversation.</p>
-            <div id="clerk-login-box"></div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">The Town Square</h2>
+            <p class="text-sm text-slate-500 mb-8">Sign in to access the global diaspora network.</p>
+            
+            <div id="clerk-login-box" class="flex justify-center">
+                <div class="animate-pulse text-slate-400">Connecting to security...</div>
+            </div>
         </div>
     </div>
 
-    <main id="main-content" class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 p-6 hidden">
+    <main id="main-content" class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 p-6">
         <aside class="lg:col-span-3 space-y-4">
-            <div class="bg-white p-5 rounded-xl border border-gray-200">
-                <button onclick="loadCategory('general')" class="w-full text-left p-2 hover:bg-slate-50 rounded font-bold text-sm">🌍 Africa News</button>
-                <button onclick="loadCategory('lifestyle')" class="w-full text-left p-2 hover:bg-slate-50 rounded font-bold text-sm">🎬 Lifestyle</button>
+            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Channels</h3>
+                <button onclick="loadCategory('general')" class="w-full text-left p-2 hover:bg-slate-50 rounded font-bold text-sm text-slate-700 transition">🌍 Africa News</button>
+                <button onclick="loadCategory('lifestyle')" class="w-full text-left p-2 hover:bg-slate-50 rounded font-bold text-sm text-slate-700 transition">🎬 Lifestyle</button>
             </div>
         </aside>
 
@@ -53,61 +58,72 @@
         </section>
 
         <aside class="lg:col-span-3">
-            <div class="bg-black text-white p-6 rounded-xl">
-                <h4 class="font-bold mb-2 uppercase text-xs">Premium Directory</h4>
-                <button class="w-full bg-white text-black py-2 rounded font-bold text-xs mt-2">Add Your Business</button>
+            <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-lg">
+                <h4 class="font-bold mb-2 text-sm uppercase">Premium Directory</h4>
+                <p class="text-[11px] text-slate-400 mb-4">List your brand globally.</p>
+                <button class="w-full bg-white text-black py-2 rounded-lg font-bold text-xs">Join Directory</button>
             </div>
         </aside>
     </main>
 
     <script>
+        // CONFIG - PASTE KEY AGAIN HERE
         const PUBLISHABLE_KEY = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
+        
         const FEEDS = {
             general: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
             lifestyle: 'https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'
         };
 
-        // Initialize Clerk
-        window.addEventListener('load', async () => {
-            const check = setInterval(async () => {
-                if (window.Clerk) {
-                    clearInterval(check);
-                    const clerk = new Clerk(PUBLISHABLE_KEY);
-                    await clerk.load();
+        // Initialize Clerk securely
+        async function startSystem() {
+            if (!window.Clerk) {
+                console.log("Waiting for Clerk script...");
+                setTimeout(startSystem, 500);
+                return;
+            }
 
-                    if (clerk.user) {
-                        // USER IS LOGGED IN
-                        document.getElementById('main-content').classList.remove('hidden');
-                        clerk.mountUserButton(document.getElementById("user-button"));
-                        loadCategory('general');
-                    } else {
-                        // USER IS LOGGED OUT
-                        document.getElementById('auth-container').classList.remove('hidden');
-                        clerk.mountSignIn(document.getElementById("clerk-login-box"));
-                    }
-                }
-            }, 500);
-        });
+            const clerk = new Clerk(PUBLISHABLE_KEY);
+            await clerk.load();
+
+            if (clerk.user) {
+                // User is logged in: Show Feed, Hide Login
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'grid';
+                clerk.mountUserButton(document.getElementById("user-button"));
+                loadCategory('general');
+            } else {
+                // User is logged out: Show Login Box
+                document.getElementById('clerk-login-box').innerHTML = ""; // Clear loader
+                clerk.mountSignIn(document.getElementById("clerk-login-box"));
+            }
+        }
 
         // News Engine
         async function loadCategory(cat) {
             const feed = document.getElementById('feed');
-            feed.innerHTML = '<div class="p-10 text-center animate-pulse">Loading Town Square...</div>';
+            feed.innerHTML = '<div class="p-10 text-center text-slate-400">Syncing Town Square...</div>';
             try {
                 const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(FEEDS[cat])}`);
                 const data = await res.json();
-                const items = new DOMParser().parseFromString(data.contents, "text/xml").querySelectorAll("item");
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const items = xmlDoc.querySelectorAll("item");
                 
-                feed.innerHTML = Array.from(items).slice(0, 6).map(item => `
+                feed.innerHTML = Array.from(items).slice(0, 8).map(item => `
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="font-bold text-slate-800 mb-2">${item.querySelector("title").textContent}</h3>
-                        <a href="${item.querySelector("link").textContent}" target="_blank" class="text-xs font-bold text-lim">Read Full Story →</a>
+                        <h3 class="font-bold text-slate-800 mb-2 leading-tight">${item.querySelector("title").textContent}</h3>
+                        <p class="text-xs text-slate-500 mb-4">${item.querySelector("description")?.textContent.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
+                        <a href="${item.querySelector("link").textContent}" target="_blank" class="text-xs font-bold text-lim uppercase tracking-wider">Read More →</a>
                     </div>
                 `).join('');
             } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-400">Feed temporarily offline.</div>`;
+                feed.innerHTML = `<div class="p-10 text-center text-slate-400">Service temporarily offline.</div>`;
             }
         }
+
+        // Boot system
+        startSystem();
     </script>
 </body>
 </html>
