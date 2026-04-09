@@ -3,64 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diaspora In Motion | Town Square</title>
+    <title>Diaspora In Motion | The Global Town Square</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script async crossorigin="anonymous" src="https://clerk.livesinmotion.co.uk/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    
+    <script 
+      async 
+      crossorigin="anonymous" 
+      data-clerk-publishable-key="PASTE_YOUR_CLERK_PUBLISHABLE_KEY_HERE" 
+      src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" 
+      type="text/javascript">
+    </script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         :root { --lim-green: #1C5E37; }
-        .bg-lim { background-color: var(--lim-green); }
+        body { background: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); }
         .text-lim { color: var(--lim-green); }
-        body { background: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .bg-lim { background-color: var(--lim-green); }
+        .feed-card { transition: transform 0.2s ease; border: 1px solid #e2e8f0; }
+        .feed-card:hover { transform: translateY(-3px); border-color: var(--lim-green); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body>
 
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-lim rounded flex items-center justify-center text-white font-bold">D</div>
-                <span class="font-black text-slate-800 text-lg">DIASPORA <span class="text-lim">IN MOTION</span></span>
+    <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-bold shadow-lg">D</div>
+            <div>
+                <h1 class="text-xl font-black text-slate-800 leading-tight">DIASPORA <span class="text-lim">IN MOTION</span></h1>
+                <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Lives In Motion Media</p>
             </div>
-            
-            <div id="auth-links" class="flex items-center gap-4">
-                <div id="user-button"></div>
-                <button id="sign-in-btn" class="bg-lim text-white px-5 py-2 rounded-full text-sm font-bold shadow-md">Join Square</button>
-            </div>
+        </div>
+        
+        <div class="flex items-center gap-6">
+            <div id="user-button"></div> <button id="sign-in-btn" class="bg-lim text-white px-6 py-2 rounded-full font-bold text-sm shadow-md hover:bg-black transition">Join Square</button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-12 gap-8">
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 p-6">
         
-        <aside class="lg:col-span-3">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-6">
-                <h3 class="font-bold text-slate-800 mb-4 tracking-tight">Premium Directory</h3>
-                <div class="space-y-4">
-                    <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-lim">
-                        <p class="text-xs font-bold text-slate-700">Lagos Grill London</p>
-                        <p class="text-[10px] text-slate-400">Authentic Cuisine • SE1</p>
-                    </div>
-                    <div class="p-3 bg-slate-50 rounded-lg border-l-4 border-lim">
-                        <p class="text-xs font-bold text-slate-700">Naija Tech Hub</p>
-                        <p class="text-[10px] text-slate-400">Workspace • Ikeja</p>
-                    </div>
+        <aside class="lg:col-span-3 space-y-6">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">Town Square Hub</h3>
+                <nav class="space-y-2">
+                    <button onclick="loadCategory('general')" class="w-full text-left px-4 py-2 rounded-lg bg-slate-50 font-semibold text-slate-700 text-sm hover:bg-slate-100 transition">🌍 Global Africa News</button>
+                    <button onclick="loadCategory('lifestyle')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-slate-700 text-sm hover:bg-slate-100 transition">🍲 Entertainment & Lifestyle</button>
+                    <button onclick="loadCategory('tech')" class="w-full text-left px-4 py-2 rounded-lg font-semibold text-slate-700 text-sm hover:bg-slate-100 transition">💻 Tech & Innovation</button>
+                </nav>
+            </div>
+
+            <div class="bg-gradient-to-br from-[#1C5E37] to-black p-6 rounded-2xl text-white shadow-xl">
+                <h4 class="font-bold text-lg mb-2">Premium Directory</h4>
+                <p class="text-xs opacity-80 mb-4">List your diaspora-owned business to reach a global Nigerian audience.</p>
+                <div class="space-y-3 mb-6">
+                    <div class="text-[10px] bg-white/10 p-2 rounded italic border-l-2 border-white">Featured: Lagos Grill London (SE1)</div>
                 </div>
-                <button onclick="window.open('https://yourstore.lemonsqueezy.com/checkout/...')" class="mt-6 w-full py-2 border-2 border-lim text-lim rounded-xl font-bold text-xs hover:bg-lim hover:text-white transition">List Your Business</button>
+                <button onclick="window.open('https://YOUR_STORE.lemonsqueezy.com/checkout/...')" class="w-full bg-white text-lim py-2 rounded-lg font-bold text-sm shadow-lg hover:bg-slate-100 transition">List My Business</button>
             </div>
         </aside>
 
-        <section class="lg:col-span-6 space-y-6">
-            <div id="news-feed" class="space-y-6">
-                <div class="text-center py-20 text-slate-400">Loading the Town Square...</div>
+        <section class="lg:col-span-6">
+            <div id="loader" class="text-center py-20 hidden">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-slate-300"></i>
+                <p class="mt-4 text-slate-500 font-medium">Updating the Town Square...</p>
             </div>
+            <div id="feed" class="space-y-6">
+                </div>
         </section>
 
-        <aside class="lg:col-span-3">
-            <div class="bg-black text-white p-6 rounded-2xl shadow-xl">
-                <h3 class="font-bold mb-4 italic">The Diaspora Pulse</h3>
-                <div class="space-y-3">
-                    <p class="text-xs border-b border-gray-800 pb-2">🔥 <span class="font-bold">Remittance News:</span> New rates for NGN...</p>
-                    <p class="text-xs border-b border-gray-800 pb-2">🎭 <span class="font-bold">Entertainment:</span> Burna Boy announces world tour...</p>
+        <aside class="lg:col-span-3 space-y-6">
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 class="font-bold text-slate-800 mb-4 italic">Trending Topics</h3>
+                <div class="space-y-4 text-sm">
+                    <p class="font-medium text-slate-600 border-b pb-2">#RemitToNaija <span class="block text-[10px] text-slate-400">4.2k active discussions</span></p>
+                    <p class="font-medium text-slate-600 border-b pb-2">#LagosStartups <span class="block text-[10px] text-slate-400">1.8k active discussions</span></p>
+                    <p class="font-medium text-slate-600">#NollywoodOnNetflix <span class="block text-[10px] text-slate-400">Trending Lifestyle</span></p>
                 </div>
             </div>
         </aside>
@@ -68,64 +88,83 @@
     </main>
 
     <script>
-        // 1. Clerk Authentication Setup
-        const clerkPubKey = "pk_test_c291Z2h0LXNlcnZhbC0xNS5jbGVyay5hY2NvdW50cy5kZXYk";
-
-        async function iinitAuth() {
-            const clerk = new Clerk(clerkPubKey);
-            await clerk.load();
-
-            const userButtonDiv = document.getElementById("user-button");
-            const signInBtn = document.getElementById("sign-in-btn");
-
-            if (clerk.user) {
-                clerk.mountUserButton(userButtonDiv);
-                signInBtn.classList.add("hidden");
-            } else {
-                signInBtn.addEventListener("click", () => {
-                    clerk.openSignUp();
-                });
+        // 1. Clerk Authentication Initialization
+        window.addEventListener('load', async function () {
+            const clerkPubKey = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
+            
+            if (typeof Clerk === 'undefined') {
+                console.error("Clerk SDK failed to load.");
+                return;
             }
-        }
 
-        // 2. Automated News Engine (Aggregated Lifestyle/Ent/News)
-        async function fetchPulse() {
-            const feedContainer = document.getElementById('news-feed');
+            const clerk = new Clerk(clerkPubKey);
+            
+            try {
+                await clerk.load();
+                const userButtonDiv = document.getElementById("user-button");
+                const signInBtn = document.getElementById("sign-in-btn");
+
+                if (clerk.user) {
+                    clerk.mountUserButton(userButtonDiv);
+                    signInBtn.classList.add("hidden");
+                } else {
+                    signInBtn.addEventListener("click", () => {
+                        clerk.openSignUp();
+                    });
+                }
+            } catch (err) {
+                console.error("Clerk error:", err);
+            }
+        });
+
+        // 2. Automated News Engine
+        const FEEDS = {
+            general: ['https://feeds.bbci.co.uk/news/world/africa/rss.xml'],
+            lifestyle: ['https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'],
+            tech: ['https://technext.ng/feed/']
+        };
+
+        async function loadCategory(cat) {
+            const feed = document.getElementById('feed');
+            const loader = document.getElementById('loader');
+            
+            feed.innerHTML = '';
+            loader.classList.remove('hidden');
+
             const proxy = "https://api.allorigins.win/raw?url=";
-            // Diverse sources for Lifestyle, Entertainment, and Global News
-            const sources = [
-                'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
-                'https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'
-            ];
 
             try {
-                const res = await fetch(proxy + encodeURIComponent(sources[0]));
+                const res = await fetch(proxy + encodeURIComponent(FEEDS[cat][0]));
                 const xml = await res.text();
                 const items = new DOMParser().parseFromString(xml, "text/xml").querySelectorAll("item");
                 
-                feedContainer.innerHTML = Array.from(items).slice(0, 8).map(item => `
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <p class="text-[10px] font-black text-lim uppercase mb-2">Town Square Update</p>
-                        <h2 class="text-lg font-bold text-slate-800 mb-2 leading-tight">${item.querySelector("title").textContent}</h2>
-                        <p class="text-sm text-slate-500 mb-4 line-clamp-2">${item.querySelector("description")?.textContent.split('<')[0] || ""}</p>
-                        <div class="flex justify-between items-center">
+                let contentHTML = Array.from(items).slice(0, 10).map(item => `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm feed-card">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] font-black text-lim uppercase tracking-widest">Global Update</span>
+                            <span class="text-[10px] text-slate-400 font-bold">${new Date(item.querySelector("pubDate")?.textContent).toLocaleDateString()}</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-800 mb-3 leading-tight">${item.querySelector("title").textContent}</h2>
+                        <p class="text-sm text-slate-600 mb-4 line-clamp-2">${item.querySelector("description")?.textContent.split('<')[0] || "No summary available."}</p>
+                        <div class="flex justify-between items-center border-t border-slate-50 pt-4">
                             <div class="flex gap-4">
-                                <button class="text-xs text-slate-400 font-bold hover:text-lim"><i class="fa-regular fa-comment"></i> Discuss</button>
-                                <button class="text-xs text-slate-400 font-bold hover:text-red-400"><i class="fa-regular fa-heart"></i></button>
+                                <button class="text-xs font-bold text-slate-400 hover:text-lim"><i class="fa-regular fa-comment"></i> Discuss</button>
+                                <button class="text-xs font-bold text-slate-400 hover:text-red-500"><i class="fa-regular fa-heart"></i></button>
                             </div>
-                            <a href="${item.querySelector("link").textContent}" target="_blank" class="text-xs font-bold text-lim">Read Full Story →</a>
+                            <a href="${item.querySelector("link").textContent}" target="_blank" class="text-[11px] font-black text-lim uppercase">Read Full →</a>
                         </div>
                     </div>
                 `).join('');
-            } catch(e) {
-                feedContainer.innerHTML = `<div class="p-10 text-center text-slate-400">Unable to load feed. Refresh to try again.</div>`;
+                
+                feed.innerHTML = contentHTML;
+            } catch (e) {
+                feed.innerHTML = `<div class="p-10 text-center text-slate-400">Connection error. Please refresh.</div>`;
             }
+            loader.classList.add('hidden');
         }
 
-        window.onload = () => {
-            initAuth();
-            fetchPulse();
-        };
+        // Initialize Feed on Load
+        window.onload = () => loadCategory('general');
     </script>
 </body>
 </html>
