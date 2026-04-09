@@ -7,13 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <script 
-      async 
-      crossorigin="anonymous" 
-      data-clerk-publishable-key="pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk" 
-      src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" 
-      type="text/javascript">
-    </script>
+<script 
+  async 
+  crossorigin="anonymous" 
+  data-clerk-publishable-key="pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk" 
+  src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" 
+  type="text/javascript">
+</script>
 
     <style>
         :root { --lim-green: #1C5E37; }
@@ -67,63 +67,52 @@
     </main>
 
     <script>
-        // CONFIG - PASTE KEY AGAIN HERE
-        const PUBLISHABLE_KEY = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
-        
-        const FEEDS = {
-            general: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
-            lifestyle: 'https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'
-        };
+    const PUBLISHABLE_KEY = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
 
-        // Initialize Clerk securely
-        async function startSystem() {
-            if (!window.Clerk) {
-                console.log("Waiting for Clerk script...");
-                setTimeout(startSystem, 500);
-                return;
-            }
+    async function initDiasporaInMotion() {
+        // Try to find Clerk
+        if (!window.Clerk) {
+            setTimeout(initDiasporaInMotion, 500);
+            return;
+        }
 
-            const clerk = new Clerk(PUBLISHABLE_KEY);
+        try {
+            const clerk = window.Clerk;
             await clerk.load();
 
             if (clerk.user) {
-                // User is logged in: Show Feed, Hide Login
+                // SUCCESS: Logged In
                 document.getElementById('auth-container').style.display = 'none';
                 document.getElementById('main-content').style.display = 'grid';
                 clerk.mountUserButton(document.getElementById("user-button"));
                 loadCategory('general');
             } else {
-                // User is logged out: Show Login Box
-                document.getElementById('clerk-login-box').innerHTML = ""; // Clear loader
+                // SUCCESS: Ready to Login
+                document.getElementById('clerk-login-box').innerHTML = ""; 
                 clerk.mountSignIn(document.getElementById("clerk-login-box"));
             }
+        } catch (err) {
+            alert("Security Error: " + err.message);
+            console.error(err);
         }
+    }
 
-        // News Engine
-        async function loadCategory(cat) {
-            const feed = document.getElementById('feed');
-            feed.innerHTML = '<div class="p-10 text-center text-slate-400">Syncing Town Square...</div>';
-            try {
-                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(FEEDS[cat])}`);
-                const data = await res.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.querySelectorAll("item");
-                
-                feed.innerHTML = Array.from(items).slice(0, 8).map(item => `
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="font-bold text-slate-800 mb-2 leading-tight">${item.querySelector("title").textContent}</h3>
-                        <p class="text-xs text-slate-500 mb-4">${item.querySelector("description")?.textContent.replace(/<[^>]*>/g, '').substring(0, 150)}...</p>
-                        <a href="${item.querySelector("link").textContent}" target="_blank" class="text-xs font-bold text-lim uppercase tracking-wider">Read More →</a>
-                    </div>
-                `).join('');
-            } catch (e) {
-                feed.innerHTML = `<div class="p-10 text-center text-slate-400">Service temporarily offline.</div>`;
-            }
-        }
+    // Standard Feed Loader
+    async function loadCategory(cat) {
+        const FEEDS = {
+            general: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
+            lifestyle: 'https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'
+        };
+        const feed = document.getElementById('feed');
+        feed.innerHTML = '<div class="p-10 text-center text-slate-400">Syncing...</div>';
+        try {
+            const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(FEEDS[cat])}`);
+            const data = await response.json();
+            // ... (keep your existing news rendering code here)
+        } catch (e) { feed.innerHTML = "Offline"; }
+    }
 
-        // Boot system
-        startSystem();
-    </script>
+    window.onload = initDiasporaInMotion;
+</script>
 </body>
 </html>
