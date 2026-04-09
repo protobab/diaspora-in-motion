@@ -70,56 +70,40 @@
     </main>
 
     <script>
-        const PUBLISHABLE_KEY = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
-        
-        async function startApp() {
-            if (!window.Clerk) {
-                setTimeout(startApp, 200);
-                return;
-            }
-
-            const clerk = new Clerk(PUBLISHABLE_KEY);
-            await clerk.load();
-
-            if (clerk.user) {
-                // LOGGED IN
-                document.getElementById('auth-container').style.display = 'none';
-                document.getElementById('main-content').style.display = 'grid';
-                clerk.mountUserButton(document.getElementById("user-button"));
-                loadCategory('general');
-            } else {
-                // LOGGED OUT
-                document.getElementById('entry-btn').onclick = () => {
-                    clerk.openSignUp(); // This will now use the secure popup/redirect method
-                };
-            }
+    const PUBLISHABLE_KEY = "pk_test_cHJvZm91bmQtc29sZS04MS5jbGVyay5hY2NvdW50cy5kZXYk";
+    
+    async function startApp() {
+        if (!window.Clerk) {
+            setTimeout(startApp, 200);
+            return;
         }
 
-        async function loadCategory(cat) {
-            const FEEDS = {
-                general: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
-                lifestyle: 'https://allafrica.com/tools/headlines/rdf/lifestyle/main.html'
+        const clerk = new Clerk(PUBLISHABLE_KEY);
+        await clerk.load();
+
+        if (clerk.user) {
+            // USER IS LOGGED IN: Show the content
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('main-content').style.display = 'grid';
+            clerk.mountUserButton(document.getElementById("user-button"));
+            loadCategory('general');
+        } else {
+            // USER IS LOGGED OUT: Setup the button
+            const btn = document.getElementById('entry-btn');
+            btn.onclick = () => {
+                console.log("Redirecting to secure login...");
+                // This method is better because it doesn't get blocked by popup blockers
+                clerk.redirectToSignUp({
+                    afterSignUpUrl: window.location.href,
+                    afterSignInUrl: window.location.href
+                });
             };
-            const feed = document.getElementById('feed');
-            feed.innerHTML = '<div class="text-center py-20 text-slate-400">Updating...</div>';
-            
-            try {
-                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(FEEDS[cat])}`);
-                const data = await res.json();
-                const items = new DOMParser().parseFromString(data.contents, "text/xml").querySelectorAll("item");
-                
-                feed.innerHTML = Array.from(items).slice(0, 6).map(item => `
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                        <h3 class="font-bold text-slate-800 mb-2 leading-snug">${item.querySelector("title").textContent}</h3>
-                        <a href="${item.querySelector("link").textContent}" target="_blank" class="text-xs font-bold text-lim uppercase">Read Full Story →</a>
-                    </div>
-                `).join('');
-            } catch (e) {
-                feed.innerHTML = '<div class="p-10 text-center">Connection error.</div>';
-            }
         }
+    }
 
-        startApp();
-    </script>
+    // (Keep your existing loadCategory function here...)
+    
+    startApp();
+</script>
 </body>
 </html>
