@@ -12,12 +12,10 @@
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
         .text-lim { color: #4ade80; }
         .bg-lim { background-color: var(--lim-green); }
-        
         #slider-container { display: flex; transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
         .slide { flex: 0 0 100%; padding: 0 12px; }
         @media (min-width: 768px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
-
         .shimmer { background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: shim 1.5s infinite; }
         @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -26,12 +24,10 @@
 
     <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-white/5">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black text-lg shadow-xl">D</div>
+            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black text-lg shadow-xl shadow-green-900/20">D</div>
             <h1 class="text-xl font-black tracking-tighter italic uppercase">DIASPORA <span class="text-lim">IN MOTION</span></h1>
         </div>
-        <div class="flex gap-4">
-            <a href="https://www.patreon.com/cw/LivesInMotion" target="_blank" class="bg-white text-black px-5 py-2 rounded-full font-black text-[10px] hover:bg-lim hover:text-white transition-all">JOIN PATREON</a>
-        </div>
+        <a href="https://www.patreon.com/cw/LivesInMotion" target="_blank" class="bg-white text-black px-5 py-2 rounded-full font-black text-[10px] hover:bg-lim hover:text-white transition-all shadow-xl">JOIN PATREON</a>
     </nav>
 
     <main class="max-w-7xl mx-auto p-6 space-y-12">
@@ -39,7 +35,7 @@
         <section class="relative">
             <div class="flex justify-between items-end mb-6">
                 <div>
-                    <h2 id="feed-title" class="text-2xl font-black uppercase tracking-tighter">Naija <span class="text-lim italic">Direct</span></h2>
+                    <h2 id="feed-title" class="text-2xl font-black uppercase tracking-tighter">Town Square <span class="text-lim italic">Live</span></h2>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass hover:bg-lim transition flex items-center justify-center"><i class="fa-solid fa-arrow-left"></i></button>
@@ -59,17 +55,16 @@
         <div class="grid lg:grid-cols-12 gap-8">
             <aside class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
                 <div class="relative z-10">
-                    <h4 class="font-black text-xl mb-2">Premium Directory</h4>
-                    <p class="text-xs text-white/70 mb-8 leading-relaxed">List your business in the global diaspora marketplace.</p>
-                    <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-xl">Add Business Listing</a>
+                    <h4 class="font-black text-xl mb-2 italic">Premium Directory</h4>
+                    <p class="text-xs text-white/70 mb-8 leading-relaxed">Boost your brand visibility across the diaspora.</p>
+                    <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Join Marketplace</a>
                 </div>
-                <i class="fa-solid fa-briefcase absolute -bottom-4 -right-4 text-white/5 text-9xl"></i>
             </aside>
 
-            <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center">
-                <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🇳🇬 Nigeria News</button>
-                <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🎶 Entertainment</button>
-                <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🚀 Tech & Biz</button>
+            <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center border-white/5">
+                <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🇳🇬 News</button>
+                <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🎶 Culture</button>
+                <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🚀 Biz & Tech</button>
             </div>
         </div>
     </main>
@@ -77,43 +72,27 @@
     <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 px-8 py-5 z-[100]">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-play text-white animate-pulse"></i></div>
+                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
                 <div>
                     <h4 class="text-xs font-black uppercase tracking-widest text-white">Lives In Motion Radio</h4>
-                    <p class="text-[10px] text-slate-500 font-bold uppercase">Streaming Live Globally</p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Broadcasting Global Vibes</p>
                 </div>
             </div>
             <div class="flex-1 max-w-xl w-full">
-                <audio id="radio-player" class="w-full h-8" controls src="https://azuracast-nuremberg.myautodj.com/listen/station_8321_1775290855/radio.mp3"></audio>
+                <audio id="radio-player" class="w-full h-8" controls src="https://https://azuracast-nuremberg.myautodj.com/listen/station_8321_1775290855/radio.mp3"></audio>
             </div>
         </div>
     </footer>
 
     <script>
-        // Using Google News as a reliable middle-man for RSS
         const FEEDS = {
             nigeria: 'https://news.google.com/rss/search?q=nigeria+news&hl=en-NG&gl=NG&ceid=NG:en',
-            entertainment: 'https://news.google.com/rss/search?q=nigeria+entertainment+lifestyle&hl=en-NG&gl=NG&ceid=NG:en',
-            tech: 'https://news.google.com/rss/search?q=nigeria+tech+business&hl=en-NG&gl=NG&ceid=NG:en'
+            entertainment: 'https://news.google.com/rss/search?q=nigeria+entertainment+afrobeats&hl=en-NG&gl=NG&ceid=NG:en',
+            tech: 'https://news.google.com/rss/search?q=nigeria+tech+startups&hl=en-NG&gl=NG&ceid=NG:en'
         };
-
-        const PROXIES = [
-            "https://api.allorigins.win/raw?url=",
-            "https://corsproxy.io/?url="
-        ];
 
         let currentPos = 0;
         let slideTimer;
-
-        async function fetchFeed(url) {
-            for (let proxy of PROXIES) {
-                try {
-                    const res = await fetch(proxy + encodeURIComponent(url));
-                    if (res.ok) return await res.text();
-                } catch (e) {}
-            }
-            throw new Error("Proxy error");
-        }
 
         async function loadCategory(cat) {
             const container = document.getElementById('slider-container');
@@ -122,29 +101,31 @@
             currentPos = 0;
             clearInterval(slideTimer);
 
+            // New fail-safe fetcher using Feed2Json
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEEDS[cat])}`;
+
             try {
-                const xmlText = await fetchFeed(FEEDS[cat]);
-                const items = new DOMParser().parseFromString(xmlText, "text/xml").querySelectorAll("item");
+                const res = await fetch(apiUrl);
+                const data = await res.json();
                 
-                container.innerHTML = Array.from(items).slice(0, 15).map((item, i) => {
-                    const title = item.querySelector("title").textContent;
-                    const link = item.querySelector("link").textContent;
-                    const date = new Date(item.querySelector("pubDate").textContent).toLocaleDateString();
-                    const img = `https://picsum.photos/seed/${cat}${i}/800/500`;
+                if (data.status !== 'ok') throw new Error();
+
+                container.innerHTML = data.items.map((item, i) => {
+                    const img = `https://picsum.photos/seed/dim${cat}${i}/800/500`;
+                    const date = new Date(item.pubDate).toLocaleDateString();
 
                     return `
                         <div class="slide">
-                            <article class="glass rounded-[2rem] overflow-hidden group h-full flex flex-col border border-white/5 hover:border-lim/50 transition-colors">
-                                <div class="h-40 relative overflow-hidden">
-                                    <img src="${img}" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition duration-1000">
+                            <article class="glass rounded-[2rem] overflow-hidden group h-full flex flex-col border border-white/5 hover:border-lim/50 transition-all duration-500">
+                                <div class="h-44 relative overflow-hidden">
+                                    <img src="${img}" class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition duration-1000">
                                     <div class="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent"></div>
-                                    <span class="absolute top-4 left-4 bg-lim text-[8px] font-black px-2 py-1 rounded-md uppercase">Live</span>
                                 </div>
-                                <div class="p-6 flex-1 flex flex-col justify-between">
-                                    <h3 class="text-sm font-bold leading-snug mb-4 group-hover:text-lim transition line-clamp-2">${title}</h3>
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-[9px] text-slate-500 font-bold">${date}</span>
-                                        <a href="${link}" target="_blank" class="text-[9px] font-black uppercase text-lim border-b border-lim pb-0.5">Read More</a>
+                                <div class="p-7 flex-1 flex flex-col justify-between">
+                                    <h3 class="text-sm font-bold leading-relaxed mb-4 group-hover:text-lim transition line-clamp-2">${item.title}</h3>
+                                    <div class="flex justify-between items-center mt-auto">
+                                        <span class="text-[9px] text-slate-500 font-bold uppercase">${date}</span>
+                                        <a href="${item.link}" target="_blank" class="text-[10px] font-black uppercase text-lim border-b-2 border-lim/20 hover:border-lim transition">Open Story</a>
                                     </div>
                                 </div>
                             </article>
@@ -154,7 +135,7 @@
 
                 startAutoScroll();
             } catch (e) {
-                container.innerHTML = '<div class="slide p-10 text-slate-500 font-bold uppercase text-xs tracking-widest">Network Busy. Try again in a moment.</div>';
+                container.innerHTML = '<div class="slide p-10 text-center"><p class="text-xs text-slate-500 font-bold mb-4 uppercase">Feed is refreshing...</p><button onclick="location.reload()" class="bg-lim px-4 py-2 rounded-lg text-[10px] font-black">RETRY NOW</button></div>';
             }
         }
 
@@ -174,9 +155,7 @@
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
 
-        function startAutoScroll() {
-            slideTimer = setInterval(nextSlide, 6000);
-        }
+        function startAutoScroll() { slideTimer = setInterval(nextSlide, 7000); }
 
         window.onload = () => loadCategory('nigeria');
     </script>
