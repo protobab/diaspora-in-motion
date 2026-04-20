@@ -8,8 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --lim-green: #1C5E37; }
-        
-        /* Tropical Town Square Background */
         body { 
             background: linear-gradient(135deg, #020617 0%, #064e3b 50%, #020617 100%); 
             background-attachment: fixed;
@@ -18,60 +16,49 @@
             overflow-x: hidden; 
             scroll-behavior: smooth; 
         }
-        
-        /* Subtle pattern overlay to evoke a textured square/pavement */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
-            opacity: 0.3;
-            pointer-events: none;
-            z-index: -1;
+            opacity: 0.3; pointer-events: none; z-index: -1;
         }
-
         .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
         .text-lim { color: #4ade80; }
         .bg-lim { background-color: var(--lim-green); }
-        
         #slider-container { display: flex; transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
         .slide { flex: 0 0 100%; padding: 0 12px; }
         @media (min-width: 768px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
-
-        /* Hide the form section initially */
         #submission-area { display: none; }
-        
         input, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
-        input:focus, textarea:focus { border-color: #4ade80 !important; outline: none; }
-        
         .shimmer { background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: shim 1.5s infinite; }
         @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        
+        /* Modal Styles */
+        .modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.9); padding: 2rem; overflow-y: auto; }
+        .modal-content { max-width: 800px; margin: 2rem auto; }
     </style>
 </head>
 <body class="pb-48">
 
     <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-white/5">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black text-lg shadow-xl shadow-green-900/20">D</div>
+            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black text-lg">D</div>
             <h1 class="text-xl font-black tracking-tighter italic uppercase">DIASPORA <span class="text-lim">IN MOTION</span></h1>
         </div>
         <a href="https://www.patreon.com/cw/LivesInMotion" target="_blank" class="bg-white text-black px-5 py-2 rounded-full font-black text-[10px] hover:bg-lim hover:text-white transition-all shadow-xl">JOIN PATREON</a>
     </nav>
 
     <main class="max-w-7xl mx-auto p-6 space-y-12">
-        
         <section class="relative">
             <div class="flex justify-between items-end mb-6">
-                <div>
-                    <h2 class="text-2xl font-black uppercase tracking-tighter">Town Square <span class="text-lim italic">Live</span></h2>
-                </div>
+                <h2 class="text-2xl font-black uppercase tracking-tighter">Town Square <span class="text-lim italic">Live</span></h2>
                 <div class="flex gap-2">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass hover:bg-lim transition flex items-center justify-center"><i class="fa-solid fa-arrow-left"></i></button>
                     <button onclick="nextSlide()" class="w-10 h-10 rounded-full glass hover:bg-lim transition flex items-center justify-center"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-
             <div class="overflow-hidden rounded-[2.5rem]">
                 <div id="slider-container" class="py-4">
                     <div class="slide"><div class="h-64 glass rounded-[2rem] shimmer"></div></div>
@@ -83,75 +70,43 @@
 
         <div class="grid lg:grid-cols-12 gap-8">
             <aside class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <h4 class="font-black text-xl mb-2 italic">Premium Directory</h4>
-                    <p class="text-xs text-white/70 mb-8 leading-relaxed">Boost your brand visibility across the diaspora.</p>
-                    <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Join Marketplace</a>
-                </div>
+                <h4 class="font-black text-xl mb-2 italic text-white">Premium Directory</h4>
+                <p class="text-xs text-white/70 mb-8">Boost your brand visibility across the diaspora.</p>
+                <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Join Marketplace</a>
             </aside>
-
-            <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center border-white/5">
+            <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center">
                 <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🇳🇬 News</button>
                 <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🎶 Culture</button>
                 <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🚀 Biz & Tech</button>
-                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm transition shadow-lg shadow-green-900/20 border border-white/10 hover:scale-105 transition-transform">
-                    ✍️ Share Your Diaspora Story
-                </button>
+                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm shadow-lg shadow-green-900/20">✍️ Share Your Diaspora Story</button>
             </div>
         </div>
 
         <section id="submission-area" class="grid lg:grid-cols-12 gap-8 scroll-mt-24">
-            <div class="lg:col-span-4 space-y-6">
+            <div class="lg:col-span-4">
                 <div class="glass p-8 rounded-[2.5rem] border-lim/20 bg-emerald-950/20">
                     <h3 class="text-xl font-black uppercase italic mb-4 text-lim">Editorial Guidelines</h3>
-                    <ul class="text-xs space-y-4 text-slate-300 leading-relaxed">
-                        <li><b class="text-white block mb-1">Authenticity Matters:</b> We seek real, lived experiences from the diaspora. Be yourself.</li>
-                        <li><b class="text-white block mb-1">Multimedia Welcome:</b> Enhance your narrative by attaching photos or voice notes.</li>
-                        <li><b class="text-white block mb-1">Impact:</b> Focus on how your journey can light the way for others.</li>
-                        <li class="bg-white/5 p-3 rounded-xl border border-white/10">
-                            <i class="fa-solid fa-circle-info text-lim mr-2"></i>
-                            <span class="italic text-white/90 font-medium">Please note: Due to the volume of submissions, users will only hear from us if their story is selected for broadcast on our radio station.</span>
+                    <ul class="text-xs space-y-4 text-slate-300">
+                        <li><b class="text-white">Authenticity:</b> Real experiences only.</li>
+                        <li><b class="text-white">Respect:</b> No hate speech or defamatory content.</li>
+                        <li class="bg-white/5 p-3 rounded-xl border border-white/10 italic">
+                            Submissions are reviewed by our media team. You will only be contacted if your story is selected for broadcast.
                         </li>
                     </ul>
                 </div>
             </div>
-
             <div class="lg:col-span-8 glass p-8 md:p-12 rounded-[2.5rem]">
                 <form action="mailto:livesinmotionmedia@gmail.com" method="post" enctype="multipart/form-data" class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Full Name</label>
-                            <input type="text" name="name" class="w-full p-4 rounded-2xl text-sm" placeholder="Your Name" required>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
-                            <input type="email" name="email" class="w-full p-4 rounded-2xl text-sm" placeholder="email@example.com" required>
-                        </div>
+                        <input type="text" name="name" class="p-4 rounded-2xl text-sm" placeholder="Full Name" required>
+                        <input type="email" name="email" class="p-4 rounded-2xl text-sm" placeholder="Email" required>
                     </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">1. Describe your story</label>
-                        <textarea name="story" rows="4" class="w-full p-4 rounded-2xl text-sm" required></textarea>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">2. What lessons did the experience teach you?</label>
-                        <textarea name="lessons" rows="3" class="w-full p-4 rounded-2xl text-sm" required></textarea>
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">3. How has it affected your life & how can it help others?</label>
-                        <textarea name="impact" rows="3" class="w-full p-4 rounded-2xl text-sm" required></textarea>
-                    </div>
-
+                    <textarea name="story" rows="4" class="w-full p-4 rounded-2xl text-sm" placeholder="1. Describe your story" required></textarea>
+                    <textarea name="lessons" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="2. What lessons did it teach you?" required></textarea>
+                    <textarea name="impact" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="3. How can it help others?" required></textarea>
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Media (Photos/Audio)</label>
-                            <input type="file" name="media" multiple class="w-full p-3 rounded-2xl text-xs file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-lim file:text-white">
-                        </div>
-                        <div class="flex items-end">
-                            <button type="submit" class="w-full bg-lim hover:bg-green-500 text-white font-black py-4 rounded-2xl transition shadow-xl uppercase text-xs tracking-widest">Submit to Media Team</button>
-                        </div>
+                        <input type="file" name="media" multiple class="w-full p-3 rounded-2xl text-xs file:bg-lim file:text-white file:border-0 file:rounded-full">
+                        <button type="submit" class="bg-lim hover:bg-green-500 text-white font-black py-4 rounded-2xl shadow-xl uppercase text-xs tracking-widest">Submit Story</button>
                     </div>
                 </form>
             </div>
@@ -161,10 +116,10 @@
     <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-[100]">
         <div class="max-w-7xl mx-auto px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
+                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
                 <div>
-                    <h4 class="text-xs font-black uppercase tracking-widest text-white">Lives In Motion Radio</h4>
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tight">Broadcasting Global Vibes</p>
+                    <h4 class="text-xs font-black uppercase text-white">Lives In Motion Radio</h4>
+                    <p class="text-[10px] text-slate-500">Global Diaspora Vibes</p>
                 </div>
             </div>
             <div class="flex-1 max-w-xl w-full">
@@ -172,31 +127,59 @@
             </div>
         </div>
         
-        <div class="bg-black/40 border-t border-white/5 py-3 px-8">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
-                <p class="text-[9px] text-slate-500 uppercase font-bold">&copy; 2026 Diaspora In Motion. All Rights Reserved.</p>
-                <div class="flex gap-4">
-                    <a href="https://www.ofcom.org.uk/tv-radio-and-on-demand/broadcast-codes/broadcast-code" target="_blank" class="text-[9px] text-slate-400 hover:text-lim uppercase font-black transition">Broadcasting Regulatory Compliance</a>
-                    <span class="text-slate-700">|</span>
-                    <a href="#" class="text-[9px] text-slate-400 hover:text-lim uppercase font-black transition">Privacy Policy</a>
+        <div class="bg-black/40 border-t border-white/5 py-3 px-8 text-center">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[9px] text-slate-500 font-bold uppercase">&copy; 2026 Diaspora In Motion</p>
+                <div class="flex gap-6">
+                    <button onclick="openModal('standardsModal')" class="text-[9px] text-slate-400 hover:text-lim font-black uppercase">Broadcasting Standards</button>
+                    <button onclick="openModal('privacyModal')" class="text-[9px] text-slate-400 hover:text-lim font-black uppercase">Privacy & Data Notice</button>
                 </div>
             </div>
         </div>
     </footer>
 
+    <div id="standardsModal" class="modal">
+        <div class="modal-content glass p-10 rounded-[3rem] border-lim/30">
+            <h2 class="text-2xl font-black text-lim uppercase italic mb-6">Our Broadcasting Standards</h2>
+            <div class="space-y-6 text-sm text-slate-300 leading-relaxed">
+                <p>Although Diaspora In Motion is a non-licensable online service, we voluntarily adhere to high international broadcasting ethics:</p>
+                <ul class="list-disc ml-5 space-y-4">
+                    <li><b>Accuracy:</b> We strive for factual integrity in our news and community updates.</li>
+                    <li><b>Harm & Offence:</b> We strictly prohibit content that incites hatred or violence based on race, religion, or gender.</li>
+                    <li><b>Privacy:</b> We respect individual privacy and obtain consent before sharing personal narratives on air.</li>
+                    <li><b>Independence:</b> Our editorial content is independent of our commercial marketplace sponsors.</li>
+                </ul>
+            </div>
+            <button onclick="closeModal('standardsModal')" class="mt-8 bg-white text-black px-8 py-3 rounded-full font-black text-xs uppercase">Close</button>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal">
+        <div class="modal-content glass p-10 rounded-[3rem] border-lim/30">
+            <h2 class="text-2xl font-black text-lim uppercase italic mb-6">Privacy & Data Notice</h2>
+            <div class="space-y-6 text-sm text-slate-300 leading-relaxed">
+                <p>Your privacy is paramount to our mission. Here is how we handle your information:</p>
+                <ul class="list-disc ml-5 space-y-4">
+                    <li><b>Story Submissions:</b> Data sent via our "Share Your Story" form is used exclusively for editorial review.</li>
+                    <li><b>No Third-Party Sales:</b> We never sell your personal contact details to advertisers or external vendors.</li>
+                    <li><b>Data Retention:</b> Submissions that are not selected for broadcast are deleted within 90 days.</li>
+                    <li><b>GDPR Awareness:</b> While we serve the global diaspora, we maintain standards aligned with UK/EU data protection principles.</li>
+                </ul>
+            </div>
+            <button onclick="closeModal('privacyModal')" class="mt-8 bg-white text-black px-8 py-3 rounded-full font-black text-xs uppercase">Close</button>
+        </div>
+    </div>
+
     <script>
-        // Story area toggle
+        function openModal(id) { document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function toggleSubmissionArea() {
             const area = document.getElementById('submission-area');
-            if (area.style.display === 'grid') {
-                area.style.display = 'none';
-            } else {
-                area.style.display = 'grid';
-                area.scrollIntoView({ behavior: 'smooth' });
-            }
+            area.style.display = area.style.display === 'grid' ? 'none' : 'grid';
+            if(area.style.display === 'grid') area.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // News Logic
+        // Logic for RSS remains the same as previous version
         const FEEDS = {
             nigeria: 'https://news.google.com/rss/search?q=nigeria+news&hl=en-NG&gl=NG&ceid=NG:en',
             entertainment: 'https://news.google.com/rss/search?q=nigeria+entertainment+afrobeats&hl=en-NG&gl=NG&ceid=NG:en',
@@ -209,62 +192,41 @@
         async function loadCategory(cat) {
             const container = document.getElementById('slider-container');
             container.innerHTML = '<div class="slide"><div class="h-64 glass rounded-[2rem] shimmer"></div></div>';
-            container.style.transform = `translateX(0)`;
-            currentPos = 0;
-            clearInterval(slideTimer);
-
             const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEEDS[cat])}`;
-
             try {
                 const res = await fetch(apiUrl);
                 const data = await res.json();
-                if (data.status !== 'ok') throw new Error();
-
-                container.innerHTML = data.items.map((item, i) => {
-                    const img = `https://picsum.photos/seed/dim${cat}${i}/800/500`;
-                    const date = new Date(item.pubDate).toLocaleDateString();
-                    return `
-                        <div class="slide">
-                            <article class="glass rounded-[2rem] overflow-hidden group h-full flex flex-col border border-white/5 hover:border-lim/50 transition-all duration-500">
-                                <div class="h-44 relative overflow-hidden">
-                                    <img src="${img}" class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition duration-1000">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent"></div>
-                                </div>
-                                <div class="p-7 flex-1 flex flex-col justify-between">
-                                    <h3 class="text-sm font-bold leading-relaxed mb-4 group-hover:text-lim transition line-clamp-2">${item.title}</h3>
-                                    <div class="flex justify-between items-center mt-auto">
-                                        <span class="text-[9px] text-slate-500 font-bold uppercase">${date}</span>
-                                        <a href="${item.link}" target="_blank" class="text-[10px] font-black uppercase text-lim border-b-2 border-lim/20 hover:border-lim transition">Open Story</a>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                    `;
-                }).join('');
+                container.innerHTML = data.items.slice(0, 9).map((item, i) => `
+                    <div class="slide">
+                        <article class="glass rounded-[2rem] overflow-hidden group h-full flex flex-col border border-white/5">
+                            <div class="h-44 relative overflow-hidden">
+                                <img src="https://picsum.photos/seed/dim${cat}${i}/800/500" class="w-full h-full object-cover opacity-40">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent"></div>
+                            </div>
+                            <div class="p-7 flex-1 flex flex-col justify-between">
+                                <h3 class="text-sm font-bold leading-relaxed mb-4 line-clamp-2">${item.title}</h3>
+                                <a href="${item.link}" target="_blank" class="text-[10px] font-black uppercase text-lim self-end">Open Story</a>
+                            </div>
+                        </article>
+                    </div>
+                `).join('');
                 startAutoScroll();
-            } catch (e) {
-                container.innerHTML = '<div class="slide p-10 text-center"><p class="text-xs text-slate-500 font-bold">Refreshing feed...</p></div>';
-            }
+            } catch (e) { console.error("Feed error"); }
         }
 
         function nextSlide() {
             const container = document.getElementById('slider-container');
-            const total = container.children.length;
-            if (total <= 1) return;
             const viewable = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
-            currentPos = (currentPos + 1) >= (total - viewable + 1) ? 0 : currentPos + 1;
+            currentPos = (currentPos + 1) >= (container.children.length - viewable + 1) ? 0 : currentPos + 1;
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
-
         function prevSlide() {
             const container = document.getElementById('slider-container');
             const viewable = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
             currentPos = (currentPos - 1 < 0) ? 0 : currentPos - 1;
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
-
-        function startAutoScroll() { slideTimer = setInterval(nextSlide, 7000); }
-
+        function startAutoScroll() { clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 7000); }
         window.onload = () => loadCategory('nigeria');
     </script>
 </body>
