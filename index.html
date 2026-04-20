@@ -8,21 +8,48 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --lim-green: #1C5E37; }
-        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; overflow-x: hidden; scroll-behavior: smooth; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        
+        /* Tropical Town Square Background */
+        body { 
+            background: linear-gradient(135deg, #020617 0%, #064e3b 50%, #020617 100%); 
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif; 
+            color: #f8fafc; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth; 
+        }
+        
+        /* Subtle pattern overlay to evoke a textured square/pavement */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
         .text-lim { color: #4ade80; }
         .bg-lim { background-color: var(--lim-green); }
+        
         #slider-container { display: flex; transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1); }
         .slide { flex: 0 0 100%; padding: 0 12px; }
         @media (min-width: 768px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
-        .shimmer { background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: shim 1.5s infinite; }
-        @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Hide the form section initially */
+        #submission-area { display: none; }
+        
         input, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
         input:focus, textarea:focus { border-color: #4ade80 !important; outline: none; }
+        
+        .shimmer { background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: shim 1.5s infinite; }
+        @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
 </head>
-<body class="pb-32">
+<body class="pb-48">
 
     <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-white/5">
         <div class="flex items-center gap-4">
@@ -37,7 +64,7 @@
         <section class="relative">
             <div class="flex justify-between items-end mb-6">
                 <div>
-                    <h2 id="feed-title" class="text-2xl font-black uppercase tracking-tighter">Town Square <span class="text-lim italic">Live</span></h2>
+                    <h2 class="text-2xl font-black uppercase tracking-tighter">Town Square <span class="text-lim italic">Live</span></h2>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass hover:bg-lim transition flex items-center justify-center"><i class="fa-solid fa-arrow-left"></i></button>
@@ -67,19 +94,24 @@
                 <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🇳🇬 News</button>
                 <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🎶 Culture</button>
                 <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🚀 Biz & Tech</button>
-                <a href="#submit-story" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm transition shadow-lg shadow-green-900/20">✍️ Share Your Story</a>
+                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm transition shadow-lg shadow-green-900/20 border border-white/10 hover:scale-105 transition-transform">
+                    ✍️ Share Your Diaspora Story
+                </button>
             </div>
         </div>
 
-        <section id="submit-story" class="grid lg:grid-cols-12 gap-8 scroll-mt-24">
+        <section id="submission-area" class="grid lg:grid-cols-12 gap-8 scroll-mt-24">
             <div class="lg:col-span-4 space-y-6">
-                <div class="glass p-8 rounded-[2.5rem] border-lim/20">
+                <div class="glass p-8 rounded-[2.5rem] border-lim/20 bg-emerald-950/20">
                     <h3 class="text-xl font-black uppercase italic mb-4 text-lim">Editorial Guidelines</h3>
                     <ul class="text-xs space-y-4 text-slate-300 leading-relaxed">
                         <li><b class="text-white block mb-1">Authenticity Matters:</b> We seek real, lived experiences from the diaspora. Be yourself.</li>
                         <li><b class="text-white block mb-1">Multimedia Welcome:</b> Enhance your narrative by attaching photos or voice notes.</li>
-                        <li><b class="text-white block mb-1">Respect Privacy:</b> Ensure you have permission if mentioning others by name.</li>
                         <li><b class="text-white block mb-1">Impact:</b> Focus on how your journey can light the way for others.</li>
+                        <li class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <i class="fa-solid fa-circle-info text-lim mr-2"></i>
+                            <span class="italic text-white/90 font-medium">Please note: Due to the volume of submissions, users will only hear from us if their story is selected for broadcast on our radio station.</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -89,36 +121,36 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Full Name</label>
-                            <input type="text" name="name" class="w-full p-4 rounded-2xl text-sm" placeholder="John Doe" required>
+                            <input type="text" name="name" class="w-full p-4 rounded-2xl text-sm" placeholder="Your Name" required>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Email Address</label>
-                            <input type="email" name="email" class="w-full p-4 rounded-2xl text-sm" placeholder="john@example.com" required>
+                            <input type="email" name="email" class="w-full p-4 rounded-2xl text-sm" placeholder="email@example.com" required>
                         </div>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">1. Describe your story</label>
-                        <textarea name="story_description" rows="4" class="w-full p-4 rounded-2xl text-sm" placeholder="Tell us what happened..." required></textarea>
+                        <textarea name="story" rows="4" class="w-full p-4 rounded-2xl text-sm" required></textarea>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">2. What lessons did the experience teach you?</label>
-                        <textarea name="lessons_learned" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="The key takeaways..." required></textarea>
+                        <textarea name="lessons" rows="3" class="w-full p-4 rounded-2xl text-sm" required></textarea>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">3. Impact & Helping Others</label>
-                        <textarea name="impact" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="How has it changed your life? How can it help others?" required></textarea>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">3. How has it affected your life & how can it help others?</label>
+                        <textarea name="impact" rows="3" class="w-full p-4 rounded-2xl text-sm" required></textarea>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Photos/Audio</label>
-                            <input type="file" name="attachments" multiple class="w-full p-3 rounded-2xl text-xs file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-lim file:text-white">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Media (Photos/Audio)</label>
+                            <input type="file" name="media" multiple class="w-full p-3 rounded-2xl text-xs file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:bg-lim file:text-white">
                         </div>
                         <div class="flex items-end">
-                            <button type="submit" class="w-full bg-lim hover:bg-green-500 text-white font-black py-4 rounded-2xl transition shadow-xl shadow-green-900/20 uppercase text-xs tracking-widest">Submit to Media Team</button>
+                            <button type="submit" class="w-full bg-lim hover:bg-green-500 text-white font-black py-4 rounded-2xl transition shadow-xl uppercase text-xs tracking-widest">Submit to Media Team</button>
                         </div>
                     </div>
                 </form>
@@ -126,8 +158,8 @@
         </section>
     </main>
 
-    <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 px-8 py-5 z-[100]">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-[100]">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
                 <div>
@@ -139,9 +171,32 @@
                 <audio id="radio-player" class="w-full h-8" controls src="https://azuracast-nuremberg.myautodj.com/listen/station_8321_1775290855/radio.mp3"></audio>
             </div>
         </div>
+        
+        <div class="bg-black/40 border-t border-white/5 py-3 px-8">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+                <p class="text-[9px] text-slate-500 uppercase font-bold">&copy; 2026 Diaspora In Motion. All Rights Reserved.</p>
+                <div class="flex gap-4">
+                    <a href="https://www.ofcom.org.uk/tv-radio-and-on-demand/broadcast-codes/broadcast-code" target="_blank" class="text-[9px] text-slate-400 hover:text-lim uppercase font-black transition">Broadcasting Regulatory Compliance</a>
+                    <span class="text-slate-700">|</span>
+                    <a href="#" class="text-[9px] text-slate-400 hover:text-lim uppercase font-black transition">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script>
+        // Story area toggle
+        function toggleSubmissionArea() {
+            const area = document.getElementById('submission-area');
+            if (area.style.display === 'grid') {
+                area.style.display = 'none';
+            } else {
+                area.style.display = 'grid';
+                area.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // News Logic
         const FEEDS = {
             nigeria: 'https://news.google.com/rss/search?q=nigeria+news&hl=en-NG&gl=NG&ceid=NG:en',
             entertainment: 'https://news.google.com/rss/search?q=nigeria+entertainment+afrobeats&hl=en-NG&gl=NG&ceid=NG:en',
@@ -163,13 +218,11 @@
             try {
                 const res = await fetch(apiUrl);
                 const data = await res.json();
-                
                 if (data.status !== 'ok') throw new Error();
 
                 container.innerHTML = data.items.map((item, i) => {
                     const img = `https://picsum.photos/seed/dim${cat}${i}/800/500`;
                     const date = new Date(item.pubDate).toLocaleDateString();
-
                     return `
                         <div class="slide">
                             <article class="glass rounded-[2rem] overflow-hidden group h-full flex flex-col border border-white/5 hover:border-lim/50 transition-all duration-500">
@@ -188,10 +241,9 @@
                         </div>
                     `;
                 }).join('');
-
                 startAutoScroll();
             } catch (e) {
-                container.innerHTML = '<div class="slide p-10 text-center"><p class="text-xs text-slate-500 font-bold mb-4 uppercase">Feed is refreshing...</p><button onclick="location.reload()" class="bg-lim px-4 py-2 rounded-lg text-[10px] font-black">RETRY NOW</button></div>';
+                container.innerHTML = '<div class="slide p-10 text-center"><p class="text-xs text-slate-500 font-bold">Refreshing feed...</p></div>';
             }
         }
 
