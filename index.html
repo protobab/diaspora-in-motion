@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diaspora In Motion | Town Square</title>
+    <title>Diaspora In Motion | Digital Town Square</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --lim-green: #1C5E37; }
         
+        /* DYNAMIC INTERNET BACKGROUND ENGINE */
         body { 
-            /* Priority 1: Dark Overlay | Priority 2: image_0.jpg | Priority 3: Deep Green Fallback */
-            background: linear-gradient(rgba(2, 6, 23, 0.75), rgba(2, 6, 23, 0.85)), 
-                        url('image_0.jpg'), 
-                        linear-gradient(135deg, #064e3b 0%, #020617 100%); 
+            background-color: #020617;
+            /* Pulls high-res community & travel imagery dynamically from Unsplash CDN */
+            background-image: linear-gradient(rgba(2, 6, 23, 0.75), rgba(2, 6, 23, 0.85)), 
+                              url('https://source.unsplash.com/featured/1920x1080?community,culture,africa,travel'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             color: #f8fafc;
             margin: 0;
+            min-height: 100vh;
         }
         
         .glass { 
@@ -33,12 +35,12 @@
         .text-lim { color: #4ade80; }
         .bg-lim { background-color: var(--lim-green); }
         
-        #slider-container { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        #slider-container { display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .slide { flex: 0 0 100%; padding: 0 10px; }
         @media (min-width: 768px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
 
-        #submission-area { display: none; opacity: 0; transition: opacity 0.4s ease; }
+        #submission-area { display: none; opacity: 0; transition: all 0.4s ease; }
         #submission-area.visible { display: grid; opacity: 1; }
         
         input, textarea { background: rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: white !important; }
@@ -50,23 +52,26 @@
 
     <nav class="glass sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-white/5">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black">D</div>
+            <div class="w-10 h-10 bg-lim rounded-xl flex items-center justify-center text-white font-black shadow-lg">D</div>
             <h1 class="text-xl font-black italic uppercase tracking-tighter">DIASPORA <span class="text-lim">IN MOTION</span></h1>
         </div>
-        <a href="https://www.patreon.com/cw/LivesInMotion" target="_blank" class="bg-white text-black px-5 py-2 rounded-full font-black text-[10px] hover:bg-lim hover:text-white transition-all shadow-xl">JOIN PATREON</a>
+        <div class="flex gap-4">
+             <a href="https://www.patreon.com/cw/LivesInMotion" target="_blank" class="bg-white text-black px-5 py-2 rounded-full font-black text-[10px] hover:bg-lim hover:text-white transition-all shadow-xl">JOIN PATREON</a>
+        </div>
     </nav>
 
     <main class="max-w-7xl mx-auto p-6 space-y-12">
         <section>
             <div class="flex justify-between items-end mb-6 px-2">
-                <h2 class="text-2xl font-black uppercase text-white drop-shadow-xl">Town Square <span class="text-lim italic">Live</span></h2>
+                <h2 class="text-2xl font-black uppercase text-white drop-shadow-xl">Digital Town Square</h2>
                 <div class="flex gap-2">
-                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-lim transition"><i class="fa-solid fa-chevron-left"></i></button>
-                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-lim transition"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-lim transition"><i class="fa-solid fa-arrow-left text-xs"></i></button>
+                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-lim transition"><i class="fa-solid fa-arrow-right text-xs"></i></button>
                 </div>
             </div>
             <div class="overflow-hidden rounded-[2.5rem]">
                 <div id="slider-container">
+                    <div class="slide"><div class="h-64 glass rounded-[2.5rem] shimmer"></div></div>
                     <div class="slide"><div class="h-64 glass rounded-[2.5rem] shimmer"></div></div>
                     <div class="slide"><div class="h-64 glass rounded-[2.5rem] shimmer"></div></div>
                 </div>
@@ -74,26 +79,26 @@
         </section>
 
         <div class="grid lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl border border-white/10">
-                <h4 class="font-black text-xl text-white mb-2 italic">Premium Directory</h4>
-                <p class="text-[11px] text-white/70 mb-8 leading-relaxed">Showcase your brand to the global diaspora community.</p>
-                <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition">Marketplace</a>
+            <div class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl border border-white/10 group">
+                <h4 class="font-black text-xl text-white mb-2 italic">Premium Marketplace</h4>
+                <p class="text-[11px] text-white/70 mb-8 leading-relaxed">Connect with the global diaspora.</p>
+                <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition shadow-lg">Enter Now</a>
             </div>
             <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center">
                 <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-lim font-bold text-sm transition">🇳🇬 News</button>
                 <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-lim font-bold text-sm transition">🎶 Culture</button>
                 <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/10 hover:bg-lim font-bold text-sm transition">🚀 Biz & Tech</button>
-                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-black text-sm shadow-xl border border-white/10">✍️ Share Your Story</button>
+                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-black text-sm shadow-xl border border-white/10">✍️ Share Story</button>
             </div>
         </div>
 
         <section id="submission-area" class="lg:grid-cols-12 gap-8 scroll-mt-24">
             <div class="lg:col-span-4 space-y-6">
-                <div class="glass p-8 rounded-[2.5rem] border-green-500/20 bg-green-500/5">
-                    <h4 class="text-[11px] font-black uppercase text-green-400 mb-2">WhatsApp Media</h4>
-                    <p class="text-xs text-slate-300 mb-6 italic">Send audio & photos here:</p>
-                    <a href="https://wa.me/2349031167282" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl">
-                        <i class="fa-brands fa-whatsapp text-xl"></i> Open WhatsApp
+                <div class="glass p-8 rounded-[2.5rem] border-green-500/20 bg-green-500/10">
+                    <h4 class="text-[11px] font-black uppercase text-green-400 mb-2">Voice & Video Submissions</h4>
+                    <p class="text-xs text-slate-300 mb-6">Send media directly to our WhatsApp:</p>
+                    <a href="https://wa.me/2349031167282" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white py-4 rounded-2xl font-black text-xs uppercase shadow-xl hover:brightness-110 transition">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp Upload
                     </a>
                 </div>
             </div>
@@ -104,7 +109,7 @@
                         <input type="email" name="_replyto" class="p-4 rounded-2xl text-sm" placeholder="Email" required>
                     </div>
                     <textarea name="story" rows="4" class="w-full p-4 rounded-2xl text-sm" placeholder="Your Story..." required></textarea>
-                    <button type="submit" class="w-full bg-lim text-white font-black py-4 rounded-2xl text-xs uppercase tracking-widest transition hover:bg-green-600">Submit Text</button>
+                    <button type="submit" class="w-full bg-lim text-white font-black py-4 rounded-2xl text-xs uppercase tracking-widest shadow-xl hover:bg-green-600 transition">Submit Narrative</button>
                 </form>
             </div>
         </section>
@@ -113,8 +118,11 @@
     <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-[100] px-8 py-5">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-radio text-white animate-pulse"></i></div>
-                <h4 class="text-xs font-black uppercase text-white tracking-widest">Lives In Motion Radio</h4>
+                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
+                <div>
+                    <h4 class="text-xs font-black uppercase text-white tracking-widest">Lives In Motion Radio</h4>
+                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-tight">Worldwide 24/7</p>
+                </div>
             </div>
             <div class="w-full md:max-w-xl">
                 <audio id="radio-player" class="w-full h-8" controls src="https://azuracast-nuremberg.myautodj.com/listen/station_8321_1775290855/radio.mp3"></audio>
@@ -138,8 +146,8 @@
 
         const FEEDS = {
             nigeria: 'https://news.google.com/rss/search?q=nigeria+news&hl=en-NG&gl=NG&ceid=NG:en',
-            entertainment: 'https://news.google.com/rss/search?q=afrobeats&hl=en-NG&gl=NG&ceid=NG:en',
-            tech: 'https://news.google.com/rss/search?q=africa+tech&hl=en-NG&gl=NG&ceid=NG:en'
+            entertainment: 'https://news.google.com/rss/search?q=afrobeats+entertainment&hl=en-NG&gl=NG&ceid=NG:en',
+            tech: 'https://news.google.com/rss/search?q=africa+tech+startups&hl=en-NG&gl=NG&ceid=NG:en'
         };
 
         let currentPos = 0;
@@ -153,11 +161,13 @@
                 const data = await res.json();
                 container.innerHTML = data.items.slice(0, 9).map((item, i) => `
                     <div class="slide">
-                        <div class="glass rounded-[2.5rem] overflow-hidden h-full flex flex-col">
-                            <div class="h-32 bg-slate-900/50"><img src="https://picsum.photos/seed/${cat}${i}/500/250" loading="lazy" class="w-full h-full object-cover opacity-40 transition"></div>
-                            <div class="p-6">
-                                <h3 class="text-xs font-bold leading-tight line-clamp-2 mb-4">${item.title}</h3>
-                                <a href="${item.link}" target="_blank" class="text-[9px] font-black uppercase text-lim">Read More</a>
+                        <div class="glass rounded-[2.5rem] overflow-hidden h-full flex flex-col group hover:border-lim/40 transition">
+                            <div class="h-36 bg-slate-900/50">
+                                <img src="https://picsum.photos/seed/${cat}${i}/600/300" loading="lazy" class="w-full h-full object-cover opacity-50 group-hover:opacity-70 transition duration-700">
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col justify-between">
+                                <h3 class="text-xs font-bold leading-relaxed line-clamp-2 text-white">${item.title}</h3>
+                                <a href="${item.link}" target="_blank" class="text-[9px] font-black uppercase text-lim mt-4 block">View Article</a>
                             </div>
                         </div>
                     </div>
@@ -173,12 +183,14 @@
             currentPos = (currentPos + 1) >= (container.children.length - viewable + 1) ? 0 : currentPos + 1;
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
+
         function prevSlide() {
             const container = document.getElementById('slider-container');
             const viewable = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
             currentPos = Math.max(0, currentPos - 1);
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
+
         function startAutoScroll() { clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 7000); }
         window.onload = () => loadCategory('nigeria');
     </script>
