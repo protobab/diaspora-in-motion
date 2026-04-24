@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diaspora In Motion | Town Square</title>
+    <title>Diaspora In Motion | Digital Town Square</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --lim-green: #1C5E37; }
         
-        /* Stylized Community Square Background using CSS Patterns */
+        /* Immersive Pictorial Background */
         body { 
-            background-color: #020617;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(151, 54%, 18%, 1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(161, 71%, 12%, 1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(142, 70%, 15%, 1) 0, transparent 50%),
-                /* Community Texture: mimicking architectural tiles/squares */
-                repeating-conic-gradient(from 45deg, rgba(255,255,255, 0.03) 0deg 90deg, rgba(255,255,255, 0) 90deg 180deg) 0 0/100px 100px;
+            background: linear-gradient(rgba(2, 6, 23, 0.93), rgba(2, 6, 23, 0.93)), 
+                        url('image_0.png'); 
+            background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             font-family: 'Inter', sans-serif; 
             color: #f8fafc; 
@@ -25,7 +22,7 @@
             scroll-behavior: smooth; 
         }
         
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
         .text-lim { color: #4ade80; }
         .bg-lim { background-color: var(--lim-green); }
         
@@ -34,13 +31,13 @@
         @media (min-width: 768px) { .slide { flex: 0 0 50%; } }
         @media (min-width: 1024px) { .slide { flex: 0 0 33.333%; } }
 
-        #submission-area { display: none; }
-        input, textarea { background: rgba(0, 0, 0, 0.2) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
+        #submission-area { display: none; opacity: 0; transform: translateY(10px); transition: all 0.5s ease; }
+        #submission-area.visible { display: grid; opacity: 1; transform: translateY(0); }
         
+        input, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
         .shimmer { background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%); background-size: 200% 100%; animation: shim 1.5s infinite; }
         @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        
-        .modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.92); padding: 2rem; overflow-y: auto; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.9); padding: 2rem; overflow-y: auto; }
     </style>
 </head>
 <body class="pb-48">
@@ -65,45 +62,48 @@
             <div class="overflow-hidden rounded-[2.5rem]">
                 <div id="slider-container" class="py-4">
                     <div class="slide"><div class="h-64 glass rounded-[2rem] shimmer"></div></div>
+                    <div class="slide"><div class="h-64 glass rounded-[2rem] shimmer"></div></div>
+                    <div class="slide"><div class="h-64 glass rounded-[2rem] shimmer"></div></div>
                 </div>
             </div>
         </section>
 
         <div class="grid lg:grid-cols-12 gap-8">
-            <aside class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl border border-white/10">
+            <aside class="lg:col-span-4 bg-gradient-to-br from-[#1C5E37] to-[#064e3b] p-8 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
                 <h4 class="font-black text-xl mb-2 italic text-white">Premium Directory</h4>
-                <p class="text-xs text-white/70 mb-8">Boost your brand visibility across the diaspora.</p>
+                <p class="text-xs text-white/70 mb-8 leading-relaxed">Boost your brand visibility across the diaspora.</p>
                 <a href="https://livesinmotion.lemonsqueezy.com/checkout/buy/7f46f2d4-b982-40cb-baca-1fda62c5d0cb" target="_blank" class="block text-center w-full bg-white text-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Join Marketplace</a>
             </aside>
             <div class="lg:col-span-8 glass p-8 rounded-[2.5rem] flex flex-wrap gap-4 items-center justify-center border-white/10">
                 <button onclick="loadCategory('nigeria')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🇳🇬 News</button>
                 <button onclick="loadCategory('entertainment')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🎶 Culture</button>
                 <button onclick="loadCategory('tech')" class="px-6 py-3 rounded-xl bg-white/5 hover:bg-lim font-bold text-sm transition">🚀 Biz & Tech</button>
-                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm shadow-lg shadow-green-900/20">✍️ Share Your Story</button>
+                <button onclick="toggleSubmissionArea()" class="px-6 py-3 rounded-xl bg-lim text-white font-bold text-sm shadow-lg border border-white/20">✍️ Share Your Story</button>
             </div>
         </div>
 
         <section id="submission-area" class="grid lg:grid-cols-12 gap-8 scroll-mt-24">
             <div class="lg:col-span-4 space-y-6">
-                <div class="glass p-8 rounded-[2.5rem] border-lim/30 bg-emerald-950/20">
+                <div class="glass p-8 rounded-[2.5rem] border-lim/20 bg-emerald-950/40">
                     <h3 class="text-xl font-black uppercase italic mb-4 text-lim">Editorial Guidelines</h3>
-                    <ul class="text-xs space-y-4 text-slate-300">
-                        <li><b class="text-white">Authenticity:</b> We prioritize real experiences.</li>
-                        <li><b class="text-white">Contact Policy:</b> We only reach out if your story is selected for broadcast.</li>
+                    <ul class="text-xs space-y-4 text-slate-200">
+                        <li><b class="text-white">Authenticity:</b> We seek real diaspora stories.</li>
+                        <li class="bg-black/30 p-4 rounded-xl border border-white/10 italic text-[10px]">
+                            <i class="fa-solid fa-bullhorn text-lim mr-2"></i> Only selected stories will be contacted for broadcast.
+                        </li>
                     </ul>
                 </div>
-
-                <div class="glass p-8 rounded-[2.5rem] border-green-500/30 bg-green-500/10">
-                    <h4 class="text-[10px] font-black uppercase tracking-widest text-green-400 mb-2">Media Uploads</h4>
-                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">For photos and audio voice notes, please use our WhatsApp line directly.</p>
-                    <a href="https://wa.me/2349031167282?text=Hi!%20I'm%20submitting%20media%20for%20my%20diaspora%20story." target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3 rounded-xl font-black text-xs transition hover:scale-105 shadow-xl shadow-green-900/40">
-                        <i class="fa-brands fa-whatsapp text-lg"></i> Upload to WhatsApp
+                <div class="glass p-8 rounded-[2.5rem] border-green-500/30 bg-green-500/5">
+                    <h4 class="text-[10px] font-black uppercase tracking-widest text-green-400 mb-2">Send Media via WhatsApp</h4>
+                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">For high-quality voice notes and photo uploads:</p>
+                    <a href="https://wa.me/2349031167282?text=Hi!%20I%20am%20sending%20media%20to%20accompany%20my%20story%20submission." target="_blank" class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3 rounded-xl font-black text-xs uppercase shadow-xl hover:scale-105 transition">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Upload Media
                     </a>
                 </div>
             </div>
 
             <div class="lg:col-span-8 glass p-8 md:p-12 rounded-[2.5rem]">
-                <form action="https://formspree.io/f/mdaybkne" method="POST" class="space-y-6">
+                <form id="storyForm" method="POST" class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
                         <input type="text" name="name" class="p-4 rounded-2xl text-sm" placeholder="Full Name" required>
                         <input type="email" name="_replyto" class="p-4 rounded-2xl text-sm" placeholder="Email" required>
@@ -112,6 +112,7 @@
                     <textarea name="lessons" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="2. What lessons did it teach you?" required></textarea>
                     <textarea name="impact" rows="3" class="w-full p-4 rounded-2xl text-sm" placeholder="3. How can it help others?" required></textarea>
                     <button type="submit" class="w-full bg-lim hover:bg-green-500 text-white font-black py-4 rounded-2xl shadow-xl uppercase text-xs tracking-widest transition-all">Submit Story Text</button>
+                    <p class="text-[9px] text-center text-slate-500 uppercase mt-4">Media (Photos/Audio) must be sent via the WhatsApp link on the left.</p>
                 </form>
             </div>
         </section>
@@ -120,7 +121,7 @@
     <footer class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 z-[100]">
         <div class="max-w-7xl mx-auto px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center shadow-lg border border-white/20"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
+                <div class="w-12 h-12 bg-lim rounded-full flex items-center justify-center"><i class="fa-solid fa-broadcast-tower text-white animate-pulse"></i></div>
                 <div>
                     <h4 class="text-xs font-black uppercase text-white tracking-widest">Lives In Motion Radio</h4>
                     <p class="text-[10px] text-slate-400">Broadcasting Global Vibes</p>
@@ -130,30 +131,31 @@
                 <audio id="radio-player" class="w-full h-8" controls src="https://azuracast-nuremberg.myautodj.com/listen/station_8321_1775290855/radio.mp3"></audio>
             </div>
         </div>
-        <div class="bg-black/60 py-3 px-8 text-center border-t border-white/5">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-[9px] text-slate-500 font-bold uppercase">&copy; 2026 Diaspora In Motion</p>
-                <div class="flex gap-6">
-                    <button onclick="openModal('standardsModal')" class="text-[9px] text-slate-400 hover:text-lim font-black uppercase transition">Standards</button>
-                    <button onclick="openModal('privacyModal')" class="text-[9px] text-slate-400 hover:text-lim font-black uppercase transition">Privacy</button>
-                </div>
-            </div>
+        <div class="bg-black/60 border-t border-white/5 py-3 px-8 text-center text-[9px] text-slate-500 font-bold uppercase tracking-widest">
+            &copy; 2026 Diaspora In Motion Media
         </div>
     </footer>
 
-    <div id="standardsModal" class="modal"><div class="modal-content glass p-10 rounded-[3rem] max-w-2xl mx-auto"><h2 class="text-xl font-black text-lim mb-4 uppercase">Broadcasting Standards</h2><p class="text-xs text-slate-300">We adhere to high international ethics for accuracy and community safety.</p><button onclick="closeModal('standardsModal')" class="mt-6 bg-white text-black px-6 py-2 rounded-full font-black text-[9px] uppercase">Close</button></div></div>
-    <div id="privacyModal" class="modal"><div class="modal-content glass p-10 rounded-[3rem] max-w-2xl mx-auto"><h2 class="text-xl font-black text-lim mb-4 uppercase">Privacy Policy</h2><p class="text-xs text-slate-300">Your details are used solely for editorial review and are never sold.</p><button onclick="closeModal('privacyModal')" class="mt-6 bg-white text-black px-6 py-2 rounded-full font-black text-[9px] uppercase">Close</button></div></div>
-
     <script>
-        function openModal(id) { document.getElementById(id).style.display = 'block'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        
+        // --- 1. ENTER YOUR FORMSPREE ID HERE ---
+        const FORMSPREE_ID = "mdaybkne"; 
+        // ---------------------------------------
+
+        // Automatically set the form action using the ID above
+        document.getElementById('storyForm').action = `https://formspree.io/f/${FORMSPREE_ID}`;
+
         function toggleSubmissionArea() {
             const area = document.getElementById('submission-area');
             area.style.display = area.style.display === 'grid' ? 'none' : 'grid';
-            if (area.style.display === 'grid') area.scrollIntoView({ behavior: 'smooth' });
+            if(area.style.display === 'grid') {
+                setTimeout(() => area.classList.add('visible'), 10);
+                area.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                area.classList.remove('visible');
+            }
         }
 
+        // RSS Logic
         const FEEDS = {
             nigeria: 'https://news.google.com/rss/search?q=nigeria+news&hl=en-NG&gl=NG&ceid=NG:en',
             entertainment: 'https://news.google.com/rss/search?q=nigeria+entertainment+afrobeats&hl=en-NG&gl=NG&ceid=NG:en',
@@ -171,13 +173,14 @@
                 const data = await res.json();
                 container.innerHTML = data.items.slice(0, 9).map((item, i) => `
                     <div class="slide">
-                        <article class="glass rounded-[2rem] h-full flex flex-col border border-white/5 overflow-hidden">
+                        <article class="glass rounded-[2rem] overflow-hidden h-full flex flex-col border border-white/5">
                             <div class="h-44 bg-slate-900 relative">
-                                <img src="https://picsum.photos/seed/dim${cat}${i}/800/500" class="w-full h-full object-cover opacity-30">
+                                <img src="https://picsum.photos/seed/dim${cat}${i}/800/500" class="w-full h-full object-cover opacity-40">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent"></div>
                             </div>
                             <div class="p-7">
-                                <h3 class="text-sm font-bold leading-relaxed line-clamp-2">${item.title}</h3>
-                                <a href="${item.link}" target="_blank" class="text-[10px] font-black uppercase text-lim mt-4 block">Read More</a>
+                                <h3 class="text-sm font-bold leading-relaxed mb-4 line-clamp-2">${item.title}</h3>
+                                <a href="${item.link}" target="_blank" class="text-[10px] font-black uppercase text-lim self-end hover:border-b border-lim transition">Read Story</a>
                             </div>
                         </article>
                     </div>
@@ -190,6 +193,12 @@
             const container = document.getElementById('slider-container');
             const viewable = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
             currentPos = (currentPos + 1) >= (container.children.length - viewable + 1) ? 0 : currentPos + 1;
+            container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
+        }
+        function prevSlide() {
+            const container = document.getElementById('slider-container');
+            const viewable = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+            currentPos = (currentPos - 1 < 0) ? 0 : currentPos - 1;
             container.style.transform = `translateX(-${currentPos * (100 / viewable)}%)`;
         }
         function startAutoScroll() { clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 7000); }
